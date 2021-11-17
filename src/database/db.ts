@@ -1,15 +1,16 @@
-import { Mongoose } from "mongoose";
-import { MpathPlugin } from 'mongoose-mpath';
+import mongoose from "mongoose";
 
-const LocationSchema = new Mongoose.Schema({name: String});
-LocationSchema.plugin(MpathPlugin);
+function handleError(error: any) {
+    throw new Error("Failed connection.");
+}
 
-const LocationModel = Mongoose.model('Location', LocationSchema);
+try {
+    await mongoose.connect("mongodb://localhost:27017/base_admin"),
+        { useNewUrlParser: true,  
+        useUnifiedTopology: true};
+  } catch (error) {
+    handleError(error);
+  }
+const connection = mongoose.connection;
 
-const europe = new LocationModel({name: 'europe'});
-const sweden = new LocationModel({name: 'sweden', parent: europe});
-const stockholm = new LocationModel({name: 'stockholm', parent: sweden});
-
-await europe.save();
-await sweden.save();
-await stockholm.save();
+module.exports = connection;
