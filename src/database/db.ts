@@ -13,9 +13,3 @@ const stockholm = new LocationModel({name: 'stockholm', parent: sweden});
 await europe.save();
 await sweden.save();
 await stockholm.save();
-
-//const url = 'mongodb://localhost/base_admin'
-//Mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-//const connection = Mongoose.connection
-
-//module.exports = connection
