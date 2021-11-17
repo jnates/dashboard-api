@@ -20,6 +20,7 @@
     "express-formidable": "^1.2.0",
     "express-session": "^1.17.2",
     "mongoose": "^6.0.12",
+    "mongoose-mpath": "^2.4.13",
     "nodemon": "^2.0.15",
     "tslib": "^2.3.1"
   },
