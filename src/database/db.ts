@@ -1,15 +1,33 @@
-import { Mongoose } from "mongoose";
-import { MpathPlugin } from 'mongoose-mpath';
+import mongoose from "mongoose";
 
-const LocationSchema = new Mongoose.Schema({name: String});
-LocationSchema.plugin(MpathPlugin);
+function handleError(error: any) {
+  throw new Error("Failed connection.");
+}
 
-const LocationModel = Mongoose.model('Location', LocationSchema);
+export const connect = () => {
 
-const europe = new LocationModel({name: 'europe'});
-const sweden = new LocationModel({name: 'sweden', parent: europe});
-const stockholm = new LocationModel({name: 'stockholm', parent: sweden});
+  try {
+    const account = async () => {
+      await mongoose.connect("mongodb://localhost/base_admin"),
+          // tslint:disable-next-line: no-unused-expression
+          { useNewUrlParser: true,
+          useUnifiedTopology: true };
+    };
+    account();
 
-await europe.save();
-await sweden.save();
-await stockholm.save();
+    } catch (error) {
+      handleError(error);
+    }
+  const connection = mongoose.connection;
+
+  connection.once("open", async () => {
+    console.log("Connected to database");
+  });
+
+  connection.on("error", () => {
+    console.log("Error connecting to database");
+  });
+
+  module.exports = connection;
+
+};
